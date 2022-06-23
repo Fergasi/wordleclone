@@ -1,38 +1,232 @@
 .App {
   text-align: center;
-}
+  height: 100vh;
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+}
+
+.App-header {
+  background-color: rgb(255, 255, 255);
+  min-width: fit-content;
+
+  color: black;
+}
+
+#topBar-header {
+  width: 100vw;
+}
+
+.Title {
+  font-family: "Rubik Moonrocks", cursive;
+  font-size: 40px;
+  font-weight: lighter;
+  line-height: 100%;
+  letter-spacing: 0.01em;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #6e6d6d7a;
+}
+
+.Wordle-grid {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Wordle-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.Wordle-square {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 3px;
+  border: 2px solid grey;
+  color: black;
+  font-weight: 700;
+  font-size: xx-large;
+}
+
+.Keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 60vw;
+  padding-bottom: 10px;
+}
+
+.Keyboard-row {
+  display: flex;
+  flex-direction: row;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  gap: 5px;
+  margin: 3px;
+  flex-grow: 1;
+  width: 90%;
+}
+
+.Keyboard-key {
+  display: flex;
+  background-color: rgb(211, 214, 218);
+  border-radius: 3px;
+  padding: 4.5%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  min-width: fit-content;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.Wordle-row > div.green {
+  --background-color: #6aaa64;
+  color: white;
+  --border: 2px solid #6aaa64;
+  animation: flip 0.5s ease forwards;
+}
+
+.Wordle-row > div.yellow {
+  --background-color: #c9b458;
+  color: white;
+  --border: 2px solid #c9b458;
+  animation: flip 0.5s ease forwards;
+}
+
+.Wordle-row > div.grey {
+  --background-color: #333333;
+  color: white;
+  --border: 2px solid #333333;
+  animation: flip 0.5s ease forwards;
+}
+
+.Keycolour-green {
+  background-color: #6aaa64;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.Keycolour-yellow {
+  background-color: #c9b458;
+  color: white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.Keycolour-grey {
+  background-color: #333333;
+  color: white;
+}
+
+.filled {
+  animation: fill 0.2s ease-in-out;
+}
+
+@keyframes fill {
+  0% {
+    transform: scale(1);
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* first div has no delay, it begins animating immediately. */
+
+/* get div inside the row which is the nth-child(2) or the 2nd div */
+.Wordle-row > div.coloured:nth-child(2) {
+  animation-delay: 0.2s;
+}
+/* get div inside the row which is the nth-child(3) or the 3rd div */
+.Wordle-row > div.coloured:nth-child(3) {
+  animation-delay: 0.4s;
+}
+/* get div inside the row which is the nth-child(4) or the 4th div */
+.Wordle-row > div.coloured:nth-child(4) {
+  animation-delay: 0.6s;
+}
+/* get div inside the row which is the nth-child(5) or the 5th div */
+.Wordle-row > div.coloured:nth-child(5) {
+  animation-delay: 0.8s;
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateX(0);
+    border-color: grey;
+  }
+  23% {
+    transform: rotateX(45deg);
+    border-color: grey;
+  }
+  45% {
+    transform: rotateX(90deg);
+    border-color: grey;
+  }
+  55% {
+    transform: rotateX(75deg);
+    background: var(--background-color);
+    border: var(--border);
+  }
+  77% {
+    transform: rotateX(45deg);
+    background: var(--background-color);
+    border: var(--border);
+  }
+  100% {
+    transform: rotateX(0);
+    background: var(--background-color);
+    border: var(--border);
+  }
+}
+
+@media (max-width: 400px) {
+  .Wordle-square {
+    width: 3rem;
+    height: 3rem;
+  }
+  .green {
+    width: 3rem;
+    height: 3rem;
+  }
+  .yellow {
+    width: 3rem;
+    height: 3rem;
+  }
+  .grey {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+@media (min-width: 750px) {
+  .Wordle-square {
+    width: 5rem;
+    height: 5rem;
+  }
+  .green {
+    width: 5rem;
+    height: 5rem;
+  }
+  .yellow {
+    width: 5rem;
+    height: 5rem;
+  }
+  .grey {
+    width: 5rem;
+    height: 5rem;
   }
 }
