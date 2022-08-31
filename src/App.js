@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { answerList, wordList } from "./wordleWords";
-import wordle from "./assets/wordle.webp";
+import { Keyboard } from "./Keyboard";
+import { WordleGrid } from "./Board";
 import "./App.css";
 
 const defaultGuessList = [
@@ -21,13 +22,10 @@ const defaultSquareColours = [
   ["", "", "", "", ""],
 ];
 
-const keysRow1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
-const keysRow2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
-const keysRow3 = ["Delete", "Z", "X", "C", "V", "B", "N", "M", "Enter"];
-const keyboardArr = [keysRow1, keysRow2, keysRow3];
-
 function App() {
   const [darkTheme, setDarkTheme] = useState(false);
+  const [rowError, setRowError] = useState({ row: "", error: false });
+
   const dayIncrementor = () => {
     var startDate = new Date("6-11-2022");
     var today = new Date();
@@ -95,23 +93,21 @@ function App() {
     const guess = wordleGuessList[wordleGuessIndex].join("").toLowerCase();
 
     if (guess.length < 5) {
-      handleGameUpdate(
-        "Some letters are missing... Please enter a complete 5 letter word"
-      );
+      handleMessage("missing");
+      setRowError({ row: wordleGuessIndex, error: true });
       return;
     } else if (!answerList.includes(guess) && !wordList.includes(guess)) {
-      handleGameUpdate("Not a valid word");
+      handleMessage("not-word");
+      setRowError({ row: wordleGuessIndex, error: true });
       return;
     } else if (guess === wordleAnswer) {
       changeColour();
       setGameState("won");
-      handleGameUpdate("Congrats you got it!");
+      handleMessage("won");
     } else if (wordleGuessIndex >= 5) {
       changeColour();
       setGameState("lost");
-      handleGameUpdate(
-        "Unfortunately you did not get it today -  try again tomorrow!"
-      );
+      handleMessage("lost");
     } else {
       changeColour();
       setWordleGuessIndex(wordleGuessIndex + 1);
@@ -152,7 +148,7 @@ function App() {
     if (key === "Enter") {
       handleEnter("Enter");
     }
-    if (key === "Backspace" || key === "Delete") {
+    if (key === "Backspace" || key === "←") {
       handleDeleteBackspace("Backspace");
     }
     if (letters.includes(key.toUpperCase())) {
@@ -167,10 +163,84 @@ function App() {
     };
   }, [handleKeyPress]);
 
-  const handleGameUpdate = (message) => {
-    alert(message);
-    //assess whether user has guessed correct letter / won
+  useEffect(
+    function removeShake() {
+      const rowShake = setTimeout(() => {
+        setRowError({ ...rowError, error: false });
+      }, 600);
+      return () => clearTimeout(rowShake);
+    },
+    [rowError]
+  );
+
+  //Message pop-up
+  const wonMessages = {
+    0: "Genius",
+    1: "Amazing",
+    2: "Impressive",
+    3: "Fantastic",
+    4: "Great",
+    5: "Phew",
   };
+
+  const Message = ({ message }) => {
+    const showMessage = () => {
+      return message.isVisible ? "show" : "";
+    };
+    return <div className={`message ${showMessage()}`}>{message.message}</div>;
+  };
+
+  const [message, setMessage] = useState({
+    message: "",
+    type: "",
+    isVisible: false,
+  });
+
+  const handleMessage = (type) => {
+    if (type.includes("lost")) {
+      setMessage({
+        message: wordleAnswer.toUpperCase(),
+        type: type,
+        isVisible: true,
+      });
+    } else if (type.includes("won")) {
+      setMessage({
+        message: wonMessages[wordleGuessIndex],
+        type: type,
+        isVisible: true,
+      });
+    } else if (gameState === "playing") {
+      if (type === "missing") {
+        setMessage({
+          message: "Not enough letters",
+          type: type,
+          isVisible: true,
+        });
+      } else if (type === "not-word") {
+        setMessage({
+          message: "Not in word list",
+          type: type,
+          isVisible: true,
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (message.type === "missing" || message.type === "not-word") {
+      window.errorOut = setTimeout(() => {
+        setMessage({ ...message, isVisible: false });
+      }, 900);
+    } else if (message.type === "won" || message.type === "lost") {
+      window.wonOut = setTimeout(() => {
+        setMessage({ ...message, isVisible: false });
+      }, 4000);
+    }
+    return () => {
+      clearTimeout(window.errorOut);
+      clearTimeout(window.wonOut);
+    };
+  }, [message]);
 
   const changeColour = () => {
     const guessLetterCount = {};
@@ -248,133 +318,15 @@ function App() {
           <span>☾</span>
         </div>
       </header>
-      {/* <Message message={message} /> */}
+      <Message message={message} />
       <WordleGrid
         wordleGuessList={wordleGuessList}
         SquareColours={SquareColours}
+        rowError={rowError}
       />
       <Keyboard handleKeyPress={handleKeyPress} letterColour={letterColour} />
     </div>
   );
 }
 
-// Wordle Grid / Wordle Board ....................
-
-const WordleGrid = ({ wordleGuessList, SquareColours }) => {
-  return (
-    <div className='Wordle-grid'>
-      {wordleGuessList.map((row, index) => {
-        return (
-          <WordleRows
-            key={`row-${index}`}
-            rowIndex={index}
-            row={row}
-            SquareColours={SquareColours}
-          ></WordleRows>
-        );
-      })}
-    </div>
-  );
-};
-
-const WordleRows = ({ rowIndex, row, SquareColours }) => {
-  return (
-    <div className='Wordle-row'>
-      {row.map((square, index) => {
-        return (
-          <WordleSquare
-            rowIndex={rowIndex}
-            index={index}
-            key={`${rowIndex} - ${index}`}
-            letter={square}
-            SquareColours={SquareColours}
-          ></WordleSquare>
-        );
-      })}
-    </div>
-  );
-};
-
-const WordleSquare = ({ letter, SquareColours, rowIndex, index }) => {
-  const isFilled = letter !== "" ? "filled" : "";
-  const cssColour = SquareColours[rowIndex][index]
-    ? "coloured " + SquareColours[rowIndex][index]
-    : "";
-
-  return (
-    <div className={`Wordle-square ${cssColour} ${isFilled}`}>{letter}</div>
-  );
-};
-
-// Onscreen Keyboard............................
-
-const Keyboard = ({ handleKeyPress, letterColour }) => {
-  return (
-    <div className='Keyboard'>
-      {keyboardArr.map((row, index) => {
-        return (
-          <KeyboardRows
-            key={index}
-            keyRow={row}
-            handleKeyPress={handleKeyPress}
-            letterColour={letterColour}
-          ></KeyboardRows>
-        );
-      })}
-    </div>
-  );
-};
-
-const KeyboardRows = ({ keyRow, handleKeyPress, letterColour }) => {
-  return (
-    <div className='Keyboard-row'>
-      {keyRow.map((keys, index) => {
-        return (
-          <KeyboardKeys
-            id={keys}
-            key={index}
-            letter={keys}
-            handleKeyPress={handleKeyPress}
-            letterColour={letterColour}
-          ></KeyboardKeys>
-        );
-      })}
-    </div>
-  );
-};
-
-const KeyboardKeys = ({ letter, handleKeyPress, letterColour }) => {
-  const letterColourCheck = letterColour[letter] ? letterColour[letter] : "";
-
-  return (
-    <div
-      className={`Keyboard-key Keycolour-${letterColourCheck}`}
-      id={letter}
-      onClick={() => {
-        handleKeyPress({ key: letter });
-      }}
-    >
-      {letter}
-    </div>
-  );
-};
-
 export default App;
-
-/*
-Use import/export syntax with react
-User require/module.export syntax with express
-// Default Export / Only exporting 1 thing
-export default App;
-import App from "./app.js"
-module.exports = App
-const App = require("./app.js")
----
-// Module Export / Exporting multiple things
-export App
-import { App } from "./app.js"
-module.exports = {
-  App: App
-}
-const { App } = require("./app.js") 
-*/

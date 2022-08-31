@@ -43,7 +43,8 @@
   line-height: 100%;
   letter-spacing: 0.01em;
   text-align: center;
-  margin-top: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .smallTitle {
@@ -71,6 +72,10 @@
   flex-direction: row;
 }
 
+.Wordle-row.shake {
+  animation: shake 0.3s;
+}
+
 .Wordle-square {
   display: flex;
   flex-direction: column;
@@ -80,65 +85,67 @@
   margin: 3px;
   border: 1px solid var(--borders);
   color: var(--text);
-  font-weight: 700;
+  font-weight: bolder;
+  font-family: sans-serif;
   font-size: 32px;
 }
 
+.Wordle-row > div.green {
+  --background-color: #6aaa64;
+  --color: white;
+  --border: 1px solid #6aaa64;
+  --border-color: #6aaa64;
+  animation: flip 0.7s ease forwards;
+}
+
+.Wordle-row > div.yellow {
+  --background-color: #c9b458;
+  --color: white;
+  --border: 1px solid #c9b458;
+  --border-color: #c9b458;
+  animation: flip 0.7s ease forwards;
+}
+
+.Wordle-row > div.grey {
+  --background-color: var(--gray);
+  --color: white;
+  --border: 1px solid var(--gray);
+  --border-color: var(--gray);
+  animation: flip 0.7s ease forwards;
+}
+
+.filled {
+  animation: fill 0.2s ease-in-out;
+  border-color: var(--text);
+}
+
 .Keyboard {
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  width: 55vw;
+  gap: 5px;
   padding-bottom: 10%;
 }
 
 .Keyboard-row {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   gap: 5px;
-  margin: 3px;
-  flex-grow: 1;
-  width: 90%;
 }
 
 .Keyboard-key {
-  display: flex;
   background-color: var(--borders);
+  color: var(--text);
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 16px;
+  min-width: 10px;
+  padding: 25px 20px;
   border-radius: 3px;
-  color: var(--text);
-  padding: 4.5%;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  min-width: fit-content;
-  justify-content: center;
-  align-items: center;
   cursor: pointer;
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.Wordle-row > div.green {
-  --background-color: #6aaa64;
-  color: var(--text);
-  --border: 2px solid #6aaa64;
-  animation: flip 0.5s ease forwards;
-}
-
-.Wordle-row > div.yellow {
-  --background-color: #c9b458;
-  color: var(--text);
-  --border: 2px solid #c9b458;
-  animation: flip 0.5s ease forwards;
-}
-
-.Wordle-row > div.grey {
-  --background-color: var(--gray);
-  color: var(--text);
-  --border: 2px solid var(--gray);
-  animation: flip 0.5s ease forwards;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .Keycolour-green {
@@ -156,16 +163,12 @@
   color: var(--text);
 }
 
-.filled {
-  animation: fill 0.2s ease-in-out;
-}
-
 /* dark theme selector */
 
 .switch-container {
   position: absolute;
   right: 5px;
-  top: 20px;
+  top: 15px;
   padding-right: 20px;
 }
 
@@ -223,6 +226,44 @@ input:checked + .slider:before {
   transform: translateX(10px);
 }
 
+.message {
+  background-color: var(--text);
+  color: var(--background);
+  padding: 15px;
+  margin: 10px;
+  min-height: 20px;
+  border-radius: 3px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+  z-index: 9;
+}
+
+.message.show {
+  opacity: 1;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-4px, 0);
+  }
+  40% {
+    transform: translate(4px, 0);
+  }
+  60% {
+    transform: translate(-4px, 0);
+  }
+  80% {
+    transform: translate(4px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
 @keyframes fill {
   0% {
     transform: scale(1);
@@ -270,36 +311,41 @@ input:checked + .slider:before {
   55% {
     transform: rotateX(75deg);
     background: var(--background-color);
-    border: var(--border);
+    border-color: var(--border-color);
+    color: var(--color);
   }
   77% {
     transform: rotateX(45deg);
     background: var(--background-color);
-    border: var(--border);
+    border-color: var(--border-color);
+    color: var(--color);
   }
   100% {
     transform: rotateX(0);
     background: var(--background-color);
-    border: var(--border);
+    border-color: var(--border-color);
+    color: var(--color);
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 750px) {
   .Wordle-square {
     width: 50px;
     height: 50px;
   }
   .green {
-    width: 3rem;
-    height: 3rem;
+    width: 50px;
+    height: 50px;
   }
+
   .yellow {
-    width: 3rem;
-    height: 3rem;
+    width: 50px;
+    height: 50px;
   }
+
   .grey {
-    width: 3rem;
-    height: 3rem;
+    width: 50px;
+    height: 50px;
   }
 
   .Title {
@@ -308,23 +354,52 @@ input:checked + .slider:before {
   .smallTitle {
     font-size: 19px;
   }
+
+  .message {
+    position: absolute;
+    top: 50px;
+  }
+
+  .Wordle-grid {
+    padding-top: 2%;
+  }
+
+  .switch-container {
+    padding-right: 10px;
+  }
+
+  .Keyboard-key {
+    padding: 15px 10px;
+    font-size: 13px;
+  }
 }
 
-@media (min-width: 750px) {
+@media (min-width: 751px) {
   .Wordle-square {
     width: 82px;
     height: 82px;
   }
+
   .green {
-    width: 5rem;
-    height: 5rem;
+    width: 82px;
+    height: 82px;
   }
+
   .yellow {
-    width: 5rem;
-    height: 5rem;
+    width: 82px;
+    height: 82px;
   }
+
   .grey {
-    width: 5rem;
-    height: 5rem;
+    width: 82px;
+    height: 82px;
+  }
+
+  .Keyboard {
+    padding-top: 5%;
+  }
+
+  .switch-container {
+    top: 20px;
   }
 }
