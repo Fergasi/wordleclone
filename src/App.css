@@ -1,7 +1,21 @@
+:root {
+  --background: white;
+  --text: black;
+  --borders: lightgray;
+  --gray: #898888ed;
+}
+
+[data-darkTheme="true"] {
+  --background: black;
+  --text: white;
+  --borders: grey;
+  --gray: #434548;
+}
+
 .App {
   text-align: center;
   height: 100vh;
-
+  background-color: var(--background);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,27 +23,40 @@
 }
 
 .App-header {
-  background-color: rgb(255, 255, 255);
   min-width: fit-content;
-
-  color: black;
+  color: var(--text);
 }
 
 #topBar-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   width: 100vw;
+  border-bottom: 1px solid var(--borders);
 }
 
 .Title {
-  font-family: "Rubik Moonrocks", cursive;
+  font-family: Impact, "Arial Narrow Bold", sans-serif;
+  color: var(--text);
   font-size: 40px;
-  font-weight: lighter;
+  font-weight: normal;
   line-height: 100%;
   letter-spacing: 0.01em;
   text-align: center;
   margin-top: 15px;
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #6e6d6d7a;
+}
+
+.smallTitle {
+  font-family: "Rubik Moonrocks", cursive;
+  font-size: 25px;
+  color: var(--text);
+  line-height: 100%;
+  letter-spacing: 0.01em;
+  text-align: center;
+  margin-top: 18px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
 }
 
 .Wordle-grid {
@@ -48,13 +75,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 50px;
+  height: 50px;
   margin: 3px;
-  border: 2px solid grey;
-  color: black;
+  border: 1px solid var(--borders);
+  color: var(--text);
   font-weight: 700;
-  font-size: xx-large;
+  font-size: 32px;
 }
 
 .Keyboard {
@@ -63,7 +90,7 @@
   align-items: center;
   justify-content: space-around;
   width: 55vw;
-  padding-bottom: 5%;
+  padding-bottom: 10%;
 }
 
 .Keyboard-row {
@@ -79,8 +106,9 @@
 
 .Keyboard-key {
   display: flex;
-  background-color: rgb(211, 214, 218);
+  background-color: var(--borders);
   border-radius: 3px;
+  color: var(--text);
   padding: 4.5%;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -94,42 +122,105 @@
 
 .Wordle-row > div.green {
   --background-color: #6aaa64;
-  color: white;
+  color: var(--text);
   --border: 2px solid #6aaa64;
   animation: flip 0.5s ease forwards;
 }
 
 .Wordle-row > div.yellow {
   --background-color: #c9b458;
-  color: white;
+  color: var(--text);
   --border: 2px solid #c9b458;
   animation: flip 0.5s ease forwards;
 }
 
 .Wordle-row > div.grey {
-  --background-color: #333333;
-  color: white;
-  --border: 2px solid #333333;
+  --background-color: var(--gray);
+  color: var(--text);
+  --border: 2px solid var(--gray);
   animation: flip 0.5s ease forwards;
 }
 
 .Keycolour-green {
   background-color: #6aaa64;
-  color: white;
+  color: var(--text);
 }
 
 .Keycolour-yellow {
   background-color: #c9b458;
-  color: white;
+  color: var(--text);
 }
 
 .Keycolour-grey {
-  background-color: #333333;
-  color: white;
+  background-color: var(--gray);
+  color: var(--text);
 }
 
 .filled {
   animation: fill 0.2s ease-in-out;
+}
+
+/* dark theme selector */
+
+.switch-container {
+  position: absolute;
+  right: 5px;
+  top: 20px;
+  padding-right: 20px;
+}
+
+.switch-container span {
+  padding: 0;
+  color: rgb(154, 154, 154);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 21px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #6baa64;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #6baa64;
+}
+
+input:checked + .slider:before {
+  transform: translateX(10px);
 }
 
 @keyframes fill {
@@ -195,8 +286,8 @@
 
 @media (max-width: 400px) {
   .Wordle-square {
-    width: 3rem;
-    height: 3rem;
+    width: 50px;
+    height: 50px;
   }
   .green {
     width: 3rem;
@@ -214,12 +305,15 @@
   .Title {
     font-size: 30px;
   }
+  .smallTitle {
+    font-size: 19px;
+  }
 }
 
 @media (min-width: 750px) {
   .Wordle-square {
-    width: 5rem;
-    height: 5rem;
+    width: 82px;
+    height: 82px;
   }
   .green {
     width: 5rem;

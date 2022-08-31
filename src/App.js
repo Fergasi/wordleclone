@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { answerList, wordList } from "./wordleWords";
+import wordle from "./assets/wordle.webp";
 import "./App.css";
 
 const defaultGuessList = [
@@ -26,6 +27,7 @@ const keysRow3 = ["Delete", "Z", "X", "C", "V", "B", "N", "M", "Enter"];
 const keyboardArr = [keysRow1, keysRow2, keysRow3];
 
 function App() {
+  const [darkTheme, setDarkTheme] = useState(false);
   const dayIncrementor = () => {
     var startDate = new Date("6-11-2022");
     var today = new Date();
@@ -230,10 +232,22 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div id="topBar-header">
-        <h1 className="Title">Wordle Clone</h1>
-      </div>
+    <div className='App' data-darkTheme={darkTheme}>
+      <header id='topBar-header'>
+        <h1 className='Title'>Wordle</h1>
+        <a className='smallTitle'>Clone</a>
+        <div className='switch-container'>
+          <label className='switch'>
+            <input
+              type='checkbox'
+              defaultChecked={darkTheme}
+              onChange={() => setDarkTheme(!darkTheme)}
+            />
+            <span className='slider'></span>
+          </label>
+          <span>☾</span>
+        </div>
+      </header>
       {/* <Message message={message} /> */}
       <WordleGrid
         wordleGuessList={wordleGuessList}
@@ -248,7 +262,7 @@ function App() {
 
 const WordleGrid = ({ wordleGuessList, SquareColours }) => {
   return (
-    <div className="Wordle-grid">
+    <div className='Wordle-grid'>
       {wordleGuessList.map((row, index) => {
         return (
           <WordleRows
@@ -265,7 +279,7 @@ const WordleGrid = ({ wordleGuessList, SquareColours }) => {
 
 const WordleRows = ({ rowIndex, row, SquareColours }) => {
   return (
-    <div className="Wordle-row">
+    <div className='Wordle-row'>
       {row.map((square, index) => {
         return (
           <WordleSquare
@@ -296,7 +310,7 @@ const WordleSquare = ({ letter, SquareColours, rowIndex, index }) => {
 
 const Keyboard = ({ handleKeyPress, letterColour }) => {
   return (
-    <div className="Keyboard">
+    <div className='Keyboard'>
       {keyboardArr.map((row, index) => {
         return (
           <KeyboardRows
@@ -313,7 +327,7 @@ const Keyboard = ({ handleKeyPress, letterColour }) => {
 
 const KeyboardRows = ({ keyRow, handleKeyPress, letterColour }) => {
   return (
-    <div className="Keyboard-row">
+    <div className='Keyboard-row'>
       {keyRow.map((keys, index) => {
         return (
           <KeyboardKeys
