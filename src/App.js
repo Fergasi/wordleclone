@@ -27,7 +27,7 @@ const keyboardArr = [keysRow1, keysRow2, keysRow3];
 
 function App() {
   const dayIncrementor = () => {
-    var startDate = new Date("6-10-2022");
+    var startDate = new Date("6-11-2022");
     var today = new Date();
     var days = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
     return days;
@@ -170,48 +170,63 @@ function App() {
     //assess whether user has guessed correct letter / won
   };
 
-  let recurseCount = 1;
-
   const changeColour = () => {
-    const wordleAnswerArray = wordleAnswer.toUpperCase().split("");
-    const letterColourCopy = letterColour;
+    const guessLetterCount = {};
+    const answerLetterCount = {};
+    const currentGuessArray = wordleGuessList[wordleGuessIndex];
+    const currentSquareColours = SquareColours;
+    const currentLetterColourCopy = letterColour;
 
-    for (let i = 0; i < wordleGuessList[wordleGuessIndex].length; i++) {
-      if (wordleGuessList[wordleGuessIndex][i] === wordleAnswerArray[i]) {
-        defaultSquareColours[wordleGuessIndex].splice(i, 1, "green");
-        letterColourCopy[wordleGuessList[wordleGuessIndex][i]] = "green";
-      } else if (
-        wordleAnswerArray.includes(wordleGuessList[wordleGuessIndex][i]) &&
-        letterColourCopy[wordleGuessList[wordleGuessIndex][i]] !== "green"
+    //GreyCount Loop
+    for (let i = 0; i < currentGuessArray.length; i++) {
+      currentSquareColours[wordleGuessIndex][i] = "grey";
+
+      if (
+        currentLetterColourCopy[currentGuessArray[i]] !== "green" &&
+        currentLetterColourCopy[currentGuessArray[i]] !== "yellow"
       ) {
-        defaultSquareColours[wordleGuessIndex].splice(i, 1, "yellow");
-        letterColourCopy[wordleGuessList[wordleGuessIndex][i]] = "yellow";
-      } else {
-        defaultSquareColours[wordleGuessIndex].splice(i, 1, "grey");
-        if (
-          letterColourCopy[wordleGuessList[wordleGuessIndex][i]] !== "green" &&
-          letterColourCopy[wordleGuessList[wordleGuessIndex][i]] !== "yellow"
-        ) {
-          letterColourCopy[wordleGuessList[wordleGuessIndex][i]] = "grey";
-        }
+        currentLetterColourCopy[currentGuessArray[i]] = "grey";
       }
 
-      setSquareColours([...defaultSquareColours]);
-      setLetterColour(letterColourCopy);
+      const wordleAnswerLower = wordleAnswer[i];
+      if (!answerLetterCount.hasOwnProperty(wordleAnswerLower)) {
+        answerLetterCount[wordleAnswerLower] = 1;
+      } else {
+        answerLetterCount[wordleAnswerLower]++;
+      }
     }
-    // console.log(letterColourCopy);
-    // console.log(letterColour);
-    // console.log({ SquareColours });
 
-    if (recurseCount % 2 === 0) {
-      // console.log("recurse done + reset");
-      recurseCount = 0;
-      return;
-    } else {
-      recurseCount++;
-      // console.log("2nd run");
-      changeColour();
+    //GreenYellow Loop
+    for (let i = 0; i < currentGuessArray.length; i++) {
+      const letterLower = currentGuessArray[i].toLowerCase();
+      if (!guessLetterCount.hasOwnProperty(letterLower)) {
+        guessLetterCount[letterLower] = 1;
+      }
+
+      if (wordleAnswer[i] === letterLower) {
+        currentSquareColours[wordleGuessIndex][i] = "green";
+        currentLetterColourCopy[currentGuessArray[i]] = "green";
+
+        guessLetterCount[letterLower]--;
+      }
+
+      if (
+        answerLetterCount.hasOwnProperty(letterLower) &&
+        guessLetterCount[letterLower] > 0
+      ) {
+        currentSquareColours[wordleGuessIndex][i] = "yellow";
+
+        if (currentLetterColourCopy[currentGuessArray[i]] !== "green") {
+          currentLetterColourCopy[currentGuessArray[i]] = "yellow";
+        }
+
+        guessLetterCount[letterLower]--;
+      }
     }
+    setSquareColours([...currentSquareColours]);
+    setLetterColour(currentLetterColourCopy);
+    // console.log(SquareColours);
+    // console.log(currentLetterColourCopy);
   };
 
   return (
@@ -219,6 +234,7 @@ function App() {
       <div id="topBar-header">
         <h1 className="Title">Wordle Clone</h1>
       </div>
+      {/* <Message message={message} /> */}
       <WordleGrid
         wordleGuessList={wordleGuessList}
         SquareColours={SquareColours}
