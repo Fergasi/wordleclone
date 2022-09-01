@@ -416,4 +416,8 @@ input:checked + .slider:before {
   .Wordle-grid {
     margin-top: 5%;
   }
+
+  .App {
+    height: 100%;
+  }
 }
