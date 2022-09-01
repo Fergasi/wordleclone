@@ -376,28 +376,28 @@ input:checked + .slider:before {
 
 @media (min-width: 751px) {
   .Wordle-square {
-    width: 65px;
-    height: 65px;
+    width: 3rem;
+    height: 3rem;
   }
 
   .message {
     position: absolute;
-    top: 80px;
+    top: 70px;
   }
 
   .green {
-    width: 65px;
-    height: 65px;
+    width: 3rem;
+    height: 3rem;
   }
 
   .yellow {
-    width: 65px;
-    height: 65px;
+    width: 3rem;
+    height: 3rem;
   }
 
   .grey {
-    width: 65px;
-    height: 65px;
+    width: 3rem;
+    height: 3rem;
   }
 
   .Keyboard {
