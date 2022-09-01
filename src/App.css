@@ -376,8 +376,8 @@ input:checked + .slider:before {
 
 @media (min-width: 751px) {
   .Wordle-square {
-    width: 3rem;
-    height: 3rem;
+    width: 5rem;
+    height: 5rem;
   }
 
   .message {
@@ -386,18 +386,18 @@ input:checked + .slider:before {
   }
 
   .green {
-    width: 3rem;
-    height: 3rem;
+    width: 5rem;
+    height: 5rem;
   }
 
   .yellow {
-    width: 3rem;
-    height: 3rem;
+    width: 5rem;
+    height: 5rem;
   }
 
   .grey {
-    width: 3rem;
-    height: 3rem;
+    width: 5rem;
+    height: 5rem;
   }
 
   .Keyboard {
@@ -405,8 +405,8 @@ input:checked + .slider:before {
   }
 
   .Keyboard-key {
-    padding: 15px 10px;
-    font-size: 13px;
+    padding: 20px 15px;
+    font-size: 15px;
   }
 
   .switch-container {
