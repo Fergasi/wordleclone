@@ -407,8 +407,4 @@ input:checked + .slider:before {
   .switch-container {
     top: 20px;
   }
-
-  .App {
-    height: none;
-  }
 }
