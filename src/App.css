@@ -376,8 +376,8 @@ input:checked + .slider:before {
 
 @media (min-width: 751px) {
   .Wordle-square {
-    width: 4rem;
-    height: 4rem;
+    width: 3rem;
+    height: 3rem;
   }
 
   .message {
@@ -386,18 +386,18 @@ input:checked + .slider:before {
   }
 
   .green {
-    width: 4rem;
-    height: 4rem;
+    width: 3rem;
+    height: 3rem;
   }
 
   .yellow {
-    width: 4rem;
-    height: 4rem;
+    width: 3rem;
+    height: 3rem;
   }
 
   .grey {
-    width: 4rem;
-    height: 4rem;
+    width: 3rem;
+    height: 3rem;
   }
 
   .Keyboard {
@@ -415,9 +415,5 @@ input:checked + .slider:before {
 
   .Wordle-grid {
     margin-top: 5%;
-  }
-
-  .App {
-    height: 100%;
   }
 }
