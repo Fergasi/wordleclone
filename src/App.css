@@ -376,8 +376,10 @@ input:checked + .slider:before {
 
 @media (min-width: 751px) {
   .Wordle-square {
-    width: 5rem;
-    height: 5rem;
+    width: 6vh;
+    min-width: 50px;
+    height: 6vh;
+    min-height: 50px;
   }
 
   .message {
@@ -386,26 +388,33 @@ input:checked + .slider:before {
   }
 
   .green {
-    width: 5rem;
-    height: 5rem;
+    width: 6vh;
+    min-width: 50px;
+    height: 6vh;
+    min-height: 50px;
   }
 
   .yellow {
-    width: 5rem;
-    height: 5rem;
+    width: 6vh;
+    min-width: 50px;
+    height: 6vh;
+    min-height: 50px;
   }
 
   .grey {
-    width: 5rem;
-    height: 5rem;
+    width: 6vh;
+    min-width: 50px;
+    height: 6vh;
+    min-height: 50px;
   }
 
   .Keyboard {
     padding-top: 5%;
+    padding-bottom: 2%;
   }
 
   .Keyboard-key {
-    padding: 20px 15px;
+    padding: 2vh 1.3vh;
     font-size: 15px;
   }
 
