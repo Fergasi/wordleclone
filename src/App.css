@@ -408,8 +408,8 @@ input:checked + .slider:before {
     top: 20px;
   }
 
-  .message {
-    margin-top: -5%;
-    margin-bottom: -5%;
+  .Wordle-grid {
+    margin-top: 5%;
+    margin-bottom: 5%;
   }
 }
