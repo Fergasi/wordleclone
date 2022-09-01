@@ -399,16 +399,12 @@ input:checked + .slider:before {
     padding-top: 5%;
   }
 
-  /* .Keyboard-key {
+  .Keyboard-key {
     padding: 15px 10px;
     font-size: 13px;
-  } */
+  }
 
   .switch-container {
     top: 20px;
-  }
-
-  .App {
-    height: none;
   }
 }
