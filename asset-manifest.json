@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/wordleclone/static/css/main.b710b0c9.css",
+    "main.css": "/wordleclone/static/css/main.476d448c.css",
     "main.js": "/wordleclone/static/js/main.78ebf73f.js",
     "static/js/787.3c1be663.chunk.js": "/wordleclone/static/js/787.3c1be663.chunk.js",
     "index.html": "/wordleclone/index.html",
-    "main.b710b0c9.css.map": "/wordleclone/static/css/main.b710b0c9.css.map",
+    "main.476d448c.css.map": "/wordleclone/static/css/main.476d448c.css.map",
     "main.78ebf73f.js.map": "/wordleclone/static/js/main.78ebf73f.js.map",
     "787.3c1be663.chunk.js.map": "/wordleclone/static/js/787.3c1be663.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b710b0c9.css",
+    "static/css/main.476d448c.css",
     "static/js/main.78ebf73f.js"
   ]
 }
