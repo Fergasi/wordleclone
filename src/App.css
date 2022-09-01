@@ -382,6 +382,7 @@ input:checked + .slider:before {
 
   .message {
     position: absolute;
+    top: 80px;
   }
 
   .green {
@@ -410,5 +411,9 @@ input:checked + .slider:before {
 
   .switch-container {
     top: 20px;
+  }
+
+  .Wordle-grid {
+    margin-top: 5%;
   }
 }
