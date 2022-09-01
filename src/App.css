@@ -376,23 +376,23 @@ input:checked + .slider:before {
 
 @media (min-width: 751px) {
   .Wordle-square {
-    width: 82px;
-    height: 82px;
+    width: 65px;
+    height: 65px;
   }
 
   .green {
-    width: 82px;
-    height: 82px;
+    width: 65px;
+    height: 65px;
   }
 
   .yellow {
-    width: 82px;
-    height: 82px;
+    width: 65px;
+    height: 65px;
   }
 
   .grey {
-    width: 82px;
-    height: 82px;
+    width: 65px;
+    height: 65px;
   }
 
   .Keyboard {
@@ -406,5 +406,9 @@ input:checked + .slider:before {
 
   .switch-container {
     top: 20px;
+  }
+
+  .App {
+    height: none;
   }
 }
