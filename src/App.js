@@ -27,7 +27,7 @@ function App() {
   const [rowError, setRowError] = useState({ row: "", error: false });
 
   const dayIncrementor = () => {
-    var startDate = new Date("6-11-2022");
+    var startDate = new Date("6-10-2022");
     var today = new Date();
     var days = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
     return days;
@@ -248,6 +248,16 @@ function App() {
     const currentGuessArray = wordleGuessList[wordleGuessIndex];
     const currentSquareColours = SquareColours;
     const currentLetterColourCopy = letterColour;
+    let letterLower = "";
+
+    for (let i = 0; i < currentGuessArray.length; i++) {
+      letterLower = currentGuessArray[i].toLowerCase();
+      if (!guessLetterCount.hasOwnProperty(letterLower)) {
+        guessLetterCount[letterLower] = 1;
+      } else {
+        guessLetterCount[letterLower]++;
+      }
+    }
 
     //GreyCount Loop
     for (let i = 0; i < currentGuessArray.length; i++) {
@@ -270,10 +280,7 @@ function App() {
 
     //GreenYellow Loop
     for (let i = 0; i < currentGuessArray.length; i++) {
-      const letterLower = currentGuessArray[i].toLowerCase();
-      if (!guessLetterCount.hasOwnProperty(letterLower)) {
-        guessLetterCount[letterLower] = 1;
-      }
+      letterLower = currentGuessArray[i].toLowerCase();
 
       if (wordleAnswer[i] === letterLower) {
         currentSquareColours[wordleGuessIndex][i] = "green";
@@ -286,7 +293,9 @@ function App() {
         answerLetterCount.hasOwnProperty(letterLower) &&
         guessLetterCount[letterLower] > 0
       ) {
-        currentSquareColours[wordleGuessIndex][i] = "yellow";
+        if (currentSquareColours[wordleGuessIndex][i] !== "green") {
+          currentSquareColours[wordleGuessIndex][i] = "yellow";
+        }
 
         if (currentLetterColourCopy[currentGuessArray[i]] !== "green") {
           currentLetterColourCopy[currentGuessArray[i]] = "yellow";
@@ -294,7 +303,39 @@ function App() {
 
         guessLetterCount[letterLower]--;
       }
+
+      if (
+        answerLetterCount.hasOwnProperty(letterLower) &&
+        wordleAnswer[wordleAnswer.lastIndexOf(letterLower)] === letterLower &&
+        guessLetterCount[letterLower] > 0
+      ) {
+        if (currentSquareColours[wordleGuessIndex][i] !== "green") {
+          currentSquareColours[wordleGuessIndex][i] = "grey";
+        }
+
+        if (currentLetterColourCopy[currentGuessArray[i]] !== "green") {
+          currentLetterColourCopy[currentGuessArray[i]] = "grey";
+        }
+      }
     }
+
+    // //GreenYellow Loop
+    // for (let i = 0; i < currentGuessArray.length; i++) {
+    //   letterLower = currentGuessArray[i].toLowerCase();
+
+    //   if (
+    //     wordleAnswer[wordleAnswer.lastIndexOf(letterLower)] === letterLower &&
+    //     currentSquareColours[wordleGuessIndex][i] === "yellow"
+    //   ) {
+    //     if (currentSquareColours[wordleGuessIndex][i] !== "green")
+    //       currentSquareColours[wordleGuessIndex][i] = "grey";
+
+    //     if (currentLetterColourCopy[currentGuessArray[i]] !== "green") {
+    //       currentLetterColourCopy[currentGuessArray[i]] = "grey";
+    //     }
+    //   }
+    // }
+
     setSquareColours([...currentSquareColours]);
     setLetterColour(currentLetterColourCopy);
     // console.log(SquareColours);
